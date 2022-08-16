@@ -2,6 +2,7 @@
 
 * {
   font-size: 13px;
+  line-height: 18px;
   margin: 0;
 }
 
@@ -9,4 +10,16 @@ body {
   margin: 0;
   background-color: #d3efd6;
   font-family: "IBM Plex Mono", monospace;
+  --accent-color: pink;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li {
+  margin-bottom: 18px;
 }
