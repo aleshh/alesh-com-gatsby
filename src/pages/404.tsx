@@ -5,7 +5,6 @@ import Body from "../components/Body";
 
 const NotFoundPage: React.FC = () => (
   <Body>
-    <br />
     <h1>Page not found</h1>
     <p>¯\_(ツ)_/¯ There's not a whole lot on this site. </p>
     <p>

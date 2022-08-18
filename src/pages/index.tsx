@@ -7,6 +7,7 @@ import Body from "../components/Body";
 
 const iconProps = {
   size: 14,
+  "aria-hidden": true,
 };
 
 const IconLink = styled.a`
@@ -14,10 +15,10 @@ const IconLink = styled.a`
   line-height: 18px;
   width: 18px;
   text-align: center;
-  color: blue;
+  color: var(--accent-color);
   border-radius: 50%;
   padding: 4px;
-  border: 1px solid blue;
+  border: 1px solid var(--accent-color);
   margin-right: 8px;
   & svg {
     position: relative;
@@ -29,17 +30,32 @@ const IconLink = styled.a`
   &:hover {
     color: black;
     border-color: black;
-    background: #eeee66;
+    background: var(--highlight-color);
     &&:visited {
       color: black;
     }
   }
 `;
 
+const VisuallyHidden = styled.span`
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  &:focus {
+    clip: auto;
+    height: auto;
+    overflow: auto;
+    position: absolute;
+    width: auto;
+  }
+`;
+
 const IndexPage: React.FC = () => (
   <>
     <Body>
-      <br />
       <h1>Alesh Houdek</h1>
       <h2>I'm a web developer. Mostly React. Not too much.</h2>
       <p>
@@ -48,7 +64,7 @@ const IndexPage: React.FC = () => (
         they're now charging me $5 a month or something extra to support it??)
         and it's not worth upgrading.
       </p>
-      <h2>A few of my recent projects</h2>
+      <h2>A few recent projects</h2>
       <ul>
         <li>
           <a
@@ -94,15 +110,19 @@ const IndexPage: React.FC = () => (
       <section>
         <IconLink href="https://github.com/aleshh">
           <GitHub {...iconProps} />
+          <VisuallyHidden>GitHub</VisuallyHidden>
         </IconLink>
         <IconLink href="https://www.linkedin.com/in/alesh/">
           <Linkedin {...iconProps} />
+          <VisuallyHidden>LinkedIn</VisuallyHidden>
         </IconLink>
         <IconLink href="https://www.instagram.com/alesh/">
           <Instagram {...iconProps} />
+          <VisuallyHidden>Instagram</VisuallyHidden>
         </IconLink>
         <IconLink href="mailto:mail@alesh.com?subject=Mail sent from alesh.com">
           <Mail {...iconProps} />
+          <VisuallyHidden>Email</VisuallyHidden>
         </IconLink>
       </section>
     </Body>
