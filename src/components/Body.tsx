@@ -1,8 +1,16 @@
+import React from "react";
 import styled from "styled-components";
+import { ghostCursor } from "../utils/ghostCursor";
 
-const Body = styled.main`
+const Body = styled((props: any) => {
+  React.useEffect(function cursor() {
+    ghostCursor();
+  }, []);
+
+  return <div className={props.className}>{props.children}</div>;
+})`
   box-sizing: border-box;
-  max-width: 630px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   padding: 18px 3px;
@@ -18,7 +26,7 @@ const Body = styled.main`
     padding-left: 20px;
   }
   & a:hover {
-    text-decoration: none;
+    background-color: var(--highlight-color);
   }
   & a:visited {
     color: --accent-color;
