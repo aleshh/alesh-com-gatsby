@@ -105,7 +105,9 @@ const IndexPage: React.FC = () => (
         Haha, I'm leaving this deliberately unfinished,{" "}
         <a href="mailto:mail@alesh.com?subject=Mail from alesh.com">email me</a>{" "}
         if it's been a long time and you think there's something I should add
-        here.
+        here. You can also see what this site looked like circa{" "}
+        <a href="https://alesh.com/old/">2016</a> and{" "}
+        <a href="http://2021.alesh.com">2021</a>.
       </p>
       <section>
         <IconLink href="https://github.com/aleshh">
