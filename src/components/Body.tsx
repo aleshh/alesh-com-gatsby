@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import Footer from "./Footer";
 import { ghostCursor } from "../utils/ghostCursor";
 
-const numbers = Array(1000)
+const numbers = Array(256)
   .fill("")
-  .map((el, i) => <div>{i}</div>);
+  .map((el, i) => <div>{i + 1}</div>);
 
 const Numbers = styled((props: any) => {
   return <p className={props.className}>{numbers}</p>;
@@ -26,10 +27,11 @@ const Body = styled((props: any) => {
   }, []);
 
   return (
-    <main className={props.className}>
+    <div className={props.className}>
       <Numbers />
-      <div>{props.children}</div>
-    </main>
+      <main>{props.children}</main>
+      <Footer />
+    </div>
   );
 })`
   position: relative;
@@ -37,7 +39,7 @@ const Body = styled((props: any) => {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 10px 18px 10px;
+  padding: 0 10px 42px 10px;
   border-left: 1px solid #cccccc;
   min-height: 100vh;
   color: #333333;
