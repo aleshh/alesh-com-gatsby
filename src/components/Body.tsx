@@ -8,7 +8,7 @@ const numbers = Array(256)
   .map((el, i) => <div>{i + 1}</div>);
 
 const Numbers = styled((props: any) => {
-  return <p className={props.className}>{numbers}</p>;
+  return <div className={props.className}>{numbers}</div>;
 })`
   position: absolute;
   left: -40px;
