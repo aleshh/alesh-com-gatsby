@@ -5,8 +5,7 @@
 I care about <span class="emoji">🚀</span>performance,
 <span class="emoji">🧑‍🦽</span>accessibility, and
 <span class="emoji">🧰</span>clean code. Love working with UX designers but roll
-my own when necessary. Currently working at Amazon. Svelte-curious. This quick
-n dirty website is made with Gatsby.
+my own when necessary. This quick n dirty website is made with Gatsby.
 
 ## A few recent projects
 
@@ -16,7 +15,7 @@ n dirty website is made with Gatsby.
 - ![Gtr-scales screenshot](/project-images/gtr-scales.jpg)
   [Gtr-scales](https://gtr-scales.alesh.com) → A guitar scale fingering chart generator for exploring modes, symmetric scales, bebop scales, and other scale families across the fretboard.
 
-<!-- - [Album Spinner](https://albums.alesh.com/){target=_blank} → Shows a random album and allows shuffling and opening in Spotify. The interesting bits are the adaptive color palette and the Spotify API integration. -->
+- [Album Spinner](https://albums.alesh.com/){target=\_blank} → Shows a random album and allows shuffling and opening in Spotify. The interesting bits are the adaptive color palette and the Spotify API integration. Pre-cursor to Flipper!
 
 - [RandoFont](https://randofont.alesh.com){target=\_blank} → Find a font for your next project. Uses the Google Fonts API.
 
