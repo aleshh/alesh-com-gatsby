@@ -9,6 +9,8 @@ const IconLink = styled.a`
 
   & svg {
     margin-right: 4px;
+    position: relative;
+    top: 3px;
   }
 `;
 
