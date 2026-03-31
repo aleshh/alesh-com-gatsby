@@ -22,4 +22,6 @@ n dirty website is made with Gatsby.
 
 - [Steno theme for VSCode](https://marketplace.visualstudio.com/items?itemName=alesh-houdek.steno-light-theme){target=\_blank} → Dark mode is [bad](https://tidbits.com/2019/05/31/the-dark-side-of-dark-mode/){target=\_blank}. Green [boosts](https://www.shiftelearning.com/blog/how-do-colors-influence-learning) concentration. Maybe. Anyway, why do you think accountants' steno pads are green?
 
+// ---
+
 [Email me](mailto:mail@alesh.com?subject=Mail from alesh.com) if you want to chat. You can also see what this site looked like circa [2016](https://alesh.com/old/) and [2021](http://2021.alesh.com).

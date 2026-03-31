@@ -3,6 +3,7 @@ import React from "react";
 type Block =
   | { type: "h1"; text: string }
   | { type: "h2"; text: string }
+  | { type: "divider" }
   | { type: "paragraph"; lines: string[] }
   | { type: "list"; items: string[][] };
 
@@ -85,6 +86,12 @@ function parseBlocks(markdown: string): Block[] {
       continue;
     }
 
+    if (line.match(/^\/\/\s*---\s*$/)) {
+      blocks.push({ type: "divider" });
+      index += 1;
+      continue;
+    }
+
     if (line.startsWith("- ")) {
       const items: string[][] = [];
 
@@ -140,6 +147,7 @@ function parseBlocks(markdown: string): Block[] {
         nextLine.trim() === "" ||
         nextLine.startsWith("# ") ||
         nextLine.startsWith("## ") ||
+        nextLine.startsWith("// ---") ||
         nextLine.startsWith("- ")
       ) {
         break;
@@ -195,6 +203,15 @@ export function renderMarkdown(markdown: string): React.ReactNode[] {
             renderListItem(item, `li-${index}-${itemIndex}`)
           )}
         </ul>
+      );
+    }
+
+    if (block.type === "divider") {
+      return (
+        <div className="section-divider" key={`divider-${index}`}>
+          <span className="section-divider-prefix">//</span>
+          <span className="section-divider-line" />
+        </div>
       );
     }
 

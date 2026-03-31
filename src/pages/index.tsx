@@ -94,6 +94,27 @@ const MarkdownContent = styled.div`
     flex: 1;
   }
 
+  & .section-divider {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    line-height: 24px;
+    margin: 24px 0;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  & .section-divider-prefix {
+    flex: 0 0 auto;
+  }
+
+  & .section-divider-line {
+    flex: 1 1 auto;
+    height: 0;
+    border-top: 1px dotted rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: -3px;
+  }
+
   @media (max-width: 560px) {
     & .project-item {
       flex-direction: column;
