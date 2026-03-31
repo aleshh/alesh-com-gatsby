@@ -1,9 +1,15 @@
 import React from "react";
 
+type Block =
+  | { type: "h1"; text: string }
+  | { type: "h2"; text: string }
+  | { type: "paragraph"; lines: string[] }
+  | { type: "list"; items: string[][] };
+
 function parseInline(markdown: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   const pattern =
-    /<span class="emoji">([\s\S]*?)<\/span>|\[([^\]]+)\]\(([^)]+)\)(?:\{target=([_a-z]+)\})?/g;
+    /<span class="emoji">([\s\S]*?)<\/span>|\[([^\]]+)\]\(([^)]+)\)(?:\{target=(\\?[_a-z]+)\})?/g;
 
   let lastIndex = 0;
   let match: RegExpExecArray | null = pattern.exec(markdown);
@@ -20,7 +26,7 @@ function parseInline(markdown: string): React.ReactNode[] {
         </span>
       );
     } else if (match[2] !== undefined) {
-      const target = match[4] || undefined;
+      const target = match[4]?.replace(/\\/g, "") || undefined;
       const rel = target === "_blank" ? "noreferrer" : undefined;
 
       nodes.push(
@@ -46,10 +52,17 @@ function parseInline(markdown: string): React.ReactNode[] {
   return nodes;
 }
 
-function parseBlocks(markdown: string): string[][] {
-  const lines = markdown.trim().split(/\r?\n/);
-  const blocks: string[][] = [];
+function stripComments(markdown: string): string {
+  return markdown.replace(/<!--[\s\S]*?-->/g, (match) => {
+    const lineBreaks = match.match(/\r?\n/g)?.length || 0;
 
+    return "\n".repeat(Math.max(1, lineBreaks));
+  });
+}
+
+function parseBlocks(markdown: string): Block[] {
+  const lines = stripComments(markdown).trim().split(/\r?\n/);
+  const blocks: Block[] = [];
   let index = 0;
 
   while (index < lines.length) {
@@ -60,14 +73,20 @@ function parseBlocks(markdown: string): string[][] {
       continue;
     }
 
-    if (line.startsWith("# ") || line.startsWith("## ")) {
-      blocks.push([line.trim()]);
+    if (line.startsWith("# ")) {
+      blocks.push({ type: "h1", text: line.slice(2).trim() });
+      index += 1;
+      continue;
+    }
+
+    if (line.startsWith("## ")) {
+      blocks.push({ type: "h2", text: line.slice(3).trim() });
       index += 1;
       continue;
     }
 
     if (line.startsWith("- ")) {
-      const items: string[] = [];
+      const items: string[][] = [];
 
       while (index < lines.length) {
         const itemLine = lines[index].trimEnd();
@@ -76,36 +95,42 @@ function parseBlocks(markdown: string): string[][] {
           break;
         }
 
-        let item = itemLine.slice(2).trim();
+        const itemLines = [itemLine.slice(2).trim()];
         index += 1;
 
         while (index < lines.length) {
           const continuation = lines[index];
+          const trimmed = continuation.trim();
+
+          if (trimmed === "") {
+            index += 1;
+
+            while (index < lines.length && lines[index].trim() === "") {
+              index += 1;
+            }
+
+            break;
+          }
 
           if (
-            continuation.trim() === "" ||
             continuation.trimStart().startsWith("- ") ||
             continuation.trimStart().startsWith("#")
           ) {
             break;
           }
 
-          item += ` ${continuation.trim()}`;
+          itemLines.push(trimmed);
           index += 1;
         }
 
-        items.push(item);
-
-        while (index < lines.length && lines[index].trim() === "") {
-          index += 1;
-        }
+        items.push(itemLines);
       }
 
-      blocks.push(items.map((item) => `- ${item}`));
+      blocks.push({ type: "list", items });
       continue;
     }
 
-    const paragraphLines: string[] = [line.trim()];
+    const paragraphLines = [line.trim()];
     index += 1;
 
     while (index < lines.length) {
@@ -124,36 +149,55 @@ function parseBlocks(markdown: string): string[][] {
       index += 1;
     }
 
-    blocks.push(paragraphLines);
+    blocks.push({ type: "paragraph", lines: paragraphLines });
   }
 
   return blocks;
 }
 
+function renderListItem(itemLines: string[], key: string): JSX.Element {
+  const [firstLine, ...remainingLines] = itemLines;
+  const imageMatch = firstLine.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*(.*)$/);
+
+  if (!imageMatch) {
+    return (
+      <li className="project-item" key={key}>
+        <div className="project-copy">{parseInline(itemLines.join(" "))}</div>
+      </li>
+    );
+  }
+
+  const [, alt, src, trailingText] = imageMatch;
+  const bodyLines = [trailingText, ...remainingLines].filter(Boolean);
+
+  return (
+    <li className="project-item has-image" key={key}>
+      <img alt={alt} loading="lazy" src={src} />
+      <div className="project-copy">{parseInline(bodyLines.join(" "))}</div>
+    </li>
+  );
+}
+
 export function renderMarkdown(markdown: string): React.ReactNode[] {
   return parseBlocks(markdown).map((block, index) => {
-    const firstLine = block[0];
-
-    if (firstLine.startsWith("# ")) {
-      return <h1 key={`h1-${index}`}>{parseInline(firstLine.slice(2))}</h1>;
+    if (block.type === "h1") {
+      return <h1 key={`h1-${index}`}>{parseInline(block.text)}</h1>;
     }
 
-    if (firstLine.startsWith("## ")) {
-      return <h2 key={`h2-${index}`}>{parseInline(firstLine.slice(3))}</h2>;
+    if (block.type === "h2") {
+      return <h2 key={`h2-${index}`}>{parseInline(block.text)}</h2>;
     }
 
-    if (firstLine.startsWith("- ")) {
+    if (block.type === "list") {
       return (
-        <ul key={`ul-${index}`}>
-          {block.map((item, itemIndex) => (
-            <li key={`li-${index}-${itemIndex}`}>
-              {parseInline(item.slice(2))}
-            </li>
-          ))}
+        <ul className="project-list" key={`ul-${index}`}>
+          {block.items.map((item, itemIndex) =>
+            renderListItem(item, `li-${index}-${itemIndex}`)
+          )}
         </ul>
       );
     }
 
-    return <p key={`p-${index}`}>{parseInline(block.join(" "))}</p>;
+    return <p key={`p-${index}`}>{parseInline(block.lines.join(" "))}</p>;
   });
 }
