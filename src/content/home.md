@@ -1,0 +1,21 @@
+# Alesh Houdek
+
+## I'm a web developer. Mostly React. Not too much.
+
+I care about <span class="emoji">🚀</span>performance,
+<span class="emoji">🧑‍🦽</span>accessibility, and
+<span class="emoji">🧰</span>clean code. Love working with UX designers but roll
+my own when necessary. Currently working at Amazon. Svelte-curious. This quick
+n dirty website is made with Gatsby.
+
+## A few recent projects
+
+- [Forker](https://forker.alesh.com/){target=_blank} → A front-end for Pitchfork's new album reviews that shows the rating on the list page. This was a chance to play around with Next, and a url-first approach to state management, and Pitchfork's undocumented API. (Currently working on filtering!)
+
+- [Album Spinner](https://albums.alesh.com/){target=_blank} → Shows a random album and allows shuffling and opening in Spotify. The interesting bits are the adaptive color palette and the Spotify API integration.
+
+- [RandoFont](https://randofont.alesh.com){target=_blank} → Find a font for your next project. Uses the Google Fonts API.
+
+- [Steno theme for VSCode](https://marketplace.visualstudio.com/items?itemName=alesh-houdek.steno-light-theme){target=_blank} → Dark mode is [bad](https://tidbits.com/2019/05/31/the-dark-side-of-dark-mode/){target=_blank}. Green [boosts](https://www.shiftelearning.com/blog/how-do-colors-influence-learning) concentration. Maybe. Anyway, why do you think accountants' steno pads are green?
+
+[Email me](mailto:mail@alesh.com?subject=Mail from alesh.com) if you want to chat. You can also see what this site looked like circa [2016](https://alesh.com/old/) and [2021](http://2021.alesh.com).
