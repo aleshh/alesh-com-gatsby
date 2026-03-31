@@ -25,6 +25,7 @@ const Wrapper = styled.footer`
   left: 0;
   right: 0;
   background-color: var(--background-color);
+  box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.08);
   font-family: sans-serif;
   // font-size: 7px;
   height: 24px;
