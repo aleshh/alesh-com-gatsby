@@ -4,8 +4,8 @@ import { HeadFC } from "gatsby";
 import { GitHub, Mail, Instagram, Linkedin } from "react-feather";
 import "./index.css";
 import Body from "../components/Body";
+import MarkdownPage from "../components/MarkdownPage";
 import homeContent from "../content/home.md";
-import { renderMarkdown } from "../utils/renderMarkdown";
 
 const iconProps = {
   size: 14,
@@ -55,81 +55,9 @@ const VisuallyHidden = styled.span`
   }
 `;
 
-const MarkdownContent = styled.div`
-  & .emoji {
-    font-size: 24px;
-    line-height: 0;
-    position: relative;
-    top: 2px;
-    margin-right: 0.25em;
-  }
-
-  & .project-list {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 24px;
-  }
-
-  & .project-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 18px;
-  }
-
-  & .project-item:last-child {
-    margin-bottom: 0;
-  }
-
-  & .project-item img {
-    width: 180px;
-    min-width: 180px;
-    height: auto;
-    border: 1px solid #cccccc;
-    background-color: #f8f8f8;
-  }
-
-  & .project-copy {
-    min-width: 0;
-    flex: 1;
-  }
-
-  & .section-divider {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    line-height: 24px;
-    margin: 24px 0;
-    color: rgba(0, 0, 0, 0.4);
-  }
-
-  & .section-divider-prefix {
-    flex: 0 0 auto;
-  }
-
-  & .section-divider-line {
-    flex: 1 1 auto;
-    height: 0;
-    border-top: 1px dotted rgba(0, 0, 0, 0.2);
-    position: relative;
-    top: -3px;
-  }
-
-  @media (max-width: 560px) {
-    & .project-item {
-      flex-direction: column;
-    }
-
-    & .project-item img {
-      width: 100%;
-      min-width: 0;
-    }
-  }
-`;
-
 const IndexPage: React.FC = () => (
   <Body>
-    <MarkdownContent>{renderMarkdown(homeContent)}</MarkdownContent>
+    <MarkdownPage content={homeContent} />
     <section>
       <IconLink href="https://github.com/aleshh">
         <GitHub {...iconProps} />
