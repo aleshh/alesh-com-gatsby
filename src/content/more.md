@@ -1,6 +1,6 @@
 # Minor projects and one-off experiments
 
-- [Fuller Word](https://fullerword.alesh.com/explore) → An actually pretty sophisticated app for storing words and phrases for later use (for writers?). I learned Angular building this forever ago. Uses local storage, so don't rely on it. I should make AI turn this into a full-fledged app.
+- [Fuller Word](https://fullerword.alesh.com/) → An actually pretty sophisticated app for storing words and phrases for later use (for writers?). I learned Angular building this forever ago. Uses local storage, so don't rely on it. I should make AI turn this into a full-fledged app.
 
 - [Random Advice](https://alesh.com/random-advice/) → A start page with a bit of advice, randomly selected from bits previously posted on [Kevin Kelly's Technium](https://kk.org/thetechnium/).
 
