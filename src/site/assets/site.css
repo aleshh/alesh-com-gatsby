@@ -1,0 +1,289 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500&display=swap");
+
+:root {
+  --accent-color: #0000e6;
+  --highlight-color: #eeee66;
+  --background-color: #d3efd6;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: #333333;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+::selection {
+  background-color: var(--highlight-color);
+}
+
+a,
+a:visited {
+  color: var(--accent-color);
+}
+
+a:hover {
+  background-color: var(--highlight-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.page {
+  position: relative;
+  box-sizing: border-box;
+  max-width: 700px;
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 10px 42px;
+  border-left: 1px solid #cccccc;
+}
+
+.page h1 {
+  color: var(--accent-color);
+}
+
+.page ul {
+  padding-left: 20px;
+}
+
+.line-numbers {
+  position: absolute;
+  left: -40px;
+  height: 100%;
+  overflow: hidden;
+  text-align: right;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.emoji {
+  position: relative;
+  top: 2px;
+  margin-right: 0.25em;
+  font-size: 24px;
+  line-height: 0;
+}
+
+.project-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 24px;
+}
+
+.project-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.project-item:last-child {
+  margin-bottom: 0;
+}
+
+.project-item img {
+  width: 180px;
+  min-width: 180px;
+  height: auto;
+  border: 1px solid #cccccc;
+  background-color: #f8f8f8;
+}
+
+.project-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.section-divider {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 24px 0;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.section-divider-prefix {
+  flex: 0 0 auto;
+}
+
+.section-divider-line {
+  position: relative;
+  top: -3px;
+  flex: 1 1 auto;
+  height: 0;
+  border-top: 1px dotted rgba(0, 0, 0, 0.2);
+}
+
+.circle-link {
+  display: inline-block;
+  width: 18px;
+  margin-right: 8px;
+  padding: 4px;
+  border: 1px solid var(--accent-color);
+  border-radius: 50%;
+  color: var(--accent-color);
+  line-height: 18px;
+  text-align: center;
+}
+
+.circle-link:last-child {
+  margin-right: 0;
+}
+
+.circle-link svg {
+  position: relative;
+  top: 2px;
+}
+
+.circle-link:hover {
+  color: black;
+  border-color: black;
+  background: var(--highlight-color);
+}
+
+.circle-link:hover:visited {
+  color: black;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.visually-hidden:focus {
+  position: absolute;
+  width: auto;
+  height: auto;
+  overflow: auto;
+  clip: auto;
+}
+
+.footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: stretch;
+  height: 24px;
+  background-color: var(--background-color);
+  box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.08);
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.footer a {
+  color: black;
+}
+
+.status-bar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.status-section {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 6px;
+}
+
+.status-item,
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-radius: 3px;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 12px;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.status-item:hover,
+.footer-link:hover {
+  color: var(--accent-color);
+  background: var(--highlight-color);
+}
+
+.static-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 3px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.footer-link svg {
+  margin-right: 4px;
+}
+
+@media (max-width: 780px) {
+  .line-numbers {
+    display: none;
+  }
+}
+
+@media (max-width: 710px) {
+  .page {
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .static-item {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .project-item {
+    flex-direction: column;
+  }
+
+  .project-item img {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .footer-link {
+    padding: 0 8px;
+    font-size: 0;
+  }
+
+  .footer-link svg {
+    margin-right: 0;
+  }
+}

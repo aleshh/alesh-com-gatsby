@@ -5,7 +5,7 @@
 I care about <span class="emoji">🚀</span>performance,
 <span class="emoji">🧑‍🦽</span>accessibility, and
 <span class="emoji">🧰</span>clean code. Love working with UX designers but roll
-my own when necessary. This quick n dirty website is made with Gatsby.
+my own when necessary. This quick n dirty website is made with Eleventy.
 
 ## A few recent projects
 

@@ -35,7 +35,6 @@ export function ghostCursor(options) {
     loop();
   }
 
-  // Bind events that are needed
   function bindEvents() {
     element.addEventListener("mousemove", onMouseMove);
     element.addEventListener("touchmove", onTouchMove, { passive: true });
@@ -43,7 +42,7 @@ export function ghostCursor(options) {
     window.addEventListener("resize", onWindowResize);
   }
 
-  function onWindowResize(e) {
+  function onWindowResize() {
     width = window.innerWidth;
     height = window.innerHeight;
 
@@ -58,7 +57,7 @@ export function ghostCursor(options) {
 
   function onTouchMove(e) {
     if (e.touches.length > 0) {
-      for (let i = 0; i < e.touches.length; i++) {
+      for (let i = 0; i < e.touches.length; i += 1) {
         addParticle(e.touches[i].clientX, e.touches[i].clientY, baseImage);
       }
     }
@@ -84,13 +83,11 @@ export function ghostCursor(options) {
   function updateParticles() {
     context.clearRect(0, 0, width, height);
 
-    // Update
-    for (let i = 0; i < particles.length; i++) {
+    for (let i = 0; i < particles.length; i += 1) {
       particles[i].update(context);
     }
 
-    // Remove dead particles
-    for (let i = particles.length - 1; i >= 0; i--) {
+    for (let i = particles.length - 1; i >= 0; i -= 1) {
       if (particles[i].lifeSpan < 0) {
         particles.splice(i, 1);
       }
@@ -102,28 +99,19 @@ export function ghostCursor(options) {
     requestAnimationFrame(loop);
   }
 
-  /**
-   * Particles
-   */
-
   function Particle(x, y, image) {
     const lifeSpan = 40;
-    this.initialLifeSpan = lifeSpan; //ms
-    this.lifeSpan = lifeSpan; //ms
-    this.position = { x: x, y: y };
-
+    this.initialLifeSpan = lifeSpan;
+    this.lifeSpan = lifeSpan;
+    this.position = { x, y };
     this.image = image;
 
-    this.update = function (context) {
-      this.lifeSpan--;
+    this.update = function (drawingContext) {
+      this.lifeSpan -= 1;
       const opacity = Math.max(this.lifeSpan / this.initialLifeSpan, 0);
 
-      context.globalAlpha = opacity;
-      context.drawImage(
-        this.image,
-        this.position.x, // - (this.canv.width / 2) * scale,
-        this.position.y //- this.canv.height / 2,
-      );
+      drawingContext.globalAlpha = opacity;
+      drawingContext.drawImage(this.image, this.position.x, this.position.y);
     };
   }
 

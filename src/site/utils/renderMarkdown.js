@@ -1,45 +1,43 @@
-import React from "react";
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
-type Block =
-  | { type: "h1"; text: string }
-  | { type: "h2"; text: string }
-  | { type: "divider" }
-  | { type: "paragraph"; lines: string[] }
-  | { type: "list"; items: string[][] };
+function escapeAttribute(value) {
+  return escapeHtml(value);
+}
 
-function parseInline(markdown: string): React.ReactNode[] {
-  const nodes: React.ReactNode[] = [];
+function parseInline(markdown) {
   const pattern =
     /<span class="emoji">([\s\S]*?)<\/span>|\[([^\]]+)\]\(([^)]+)\)(?:\{target=(\\?[_a-z]+)\})?/g;
 
+  let html = "";
   let lastIndex = 0;
-  let match: RegExpExecArray | null = pattern.exec(markdown);
+  let match = pattern.exec(markdown);
 
   while (match) {
     if (match.index > lastIndex) {
-      nodes.push(markdown.slice(lastIndex, match.index));
+      html += escapeHtml(markdown.slice(lastIndex, match.index));
     }
 
     if (match[1] !== undefined) {
-      nodes.push(
-        <span className="emoji" key={`emoji-${match.index}`}>
-          {match[1]}
-        </span>
-      );
+      html += `<span class="emoji">${escapeHtml(match[1])}</span>`;
     } else if (match[2] !== undefined) {
-      const target = match[4]?.replace(/\\/g, "") || undefined;
-      const rel = target === "_blank" ? "noreferrer" : undefined;
+      const href = escapeAttribute(match[3]);
+      const target = match[4] ? match[4].replace(/\\/g, "") : "";
+      const targetAttribute = target
+        ? ` target="${escapeAttribute(target)}"`
+        : "";
+      const relAttribute =
+        target === "_blank" ? ' rel="noreferrer"' : "";
 
-      nodes.push(
-        <a
-          href={match[3]}
-          key={`md-link-${match.index}`}
-          rel={rel}
-          target={target}
-        >
-          {match[2]}
-        </a>
-      );
+      html += `<a href="${href}"${relAttribute}${targetAttribute}>${escapeHtml(
+        match[2]
+      )}</a>`;
     }
 
     lastIndex = pattern.lastIndex;
@@ -47,23 +45,22 @@ function parseInline(markdown: string): React.ReactNode[] {
   }
 
   if (lastIndex < markdown.length) {
-    nodes.push(markdown.slice(lastIndex));
+    html += escapeHtml(markdown.slice(lastIndex));
   }
 
-  return nodes;
+  return html;
 }
 
-function stripComments(markdown: string): string {
+function stripComments(markdown) {
   return markdown.replace(/<!--[\s\S]*?-->/g, (match) => {
     const lineBreaks = match.match(/\r?\n/g)?.length || 0;
-
     return "\n".repeat(Math.max(1, lineBreaks));
   });
 }
 
-function parseBlocks(markdown: string): Block[] {
+function parseBlocks(markdown) {
   const lines = stripComments(markdown).trim().split(/\r?\n/);
-  const blocks: Block[] = [];
+  const blocks = [];
   let index = 0;
 
   while (index < lines.length) {
@@ -93,7 +90,7 @@ function parseBlocks(markdown: string): Block[] {
     }
 
     if (line.startsWith("- ")) {
-      const items: string[][] = [];
+      const items = [];
 
       while (index < lines.length) {
         const itemLine = lines[index].trimEnd();
@@ -163,58 +160,52 @@ function parseBlocks(markdown: string): Block[] {
   return blocks;
 }
 
-function renderListItem(itemLines: string[], key: string): JSX.Element {
+function renderListItem(itemLines) {
   const [firstLine, ...remainingLines] = itemLines;
   const imageMatch = firstLine.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*(.*)$/);
 
   if (!imageMatch) {
-    return (
-      <li className="project-item" key={key}>
-        <div className="project-copy">{parseInline(itemLines.join(" "))}</div>
-      </li>
-    );
+    return `<li class="project-item"><div class="project-copy">${parseInline(
+      itemLines.join(" ")
+    )}</div></li>`;
   }
 
   const [, alt, src, trailingText] = imageMatch;
   const bodyLines = [trailingText, ...remainingLines].filter(Boolean);
 
-  return (
-    <li className="project-item has-image" key={key}>
-      <img alt={alt} loading="lazy" src={src} />
-      <div className="project-copy">{parseInline(bodyLines.join(" "))}</div>
-    </li>
-  );
+  return `<li class="project-item has-image"><img alt="${escapeAttribute(
+    alt
+  )}" loading="lazy" src="${escapeAttribute(
+    src
+  )}"><div class="project-copy">${parseInline(bodyLines.join(" "))}</div></li>`;
 }
 
-export function renderMarkdown(markdown: string): React.ReactNode[] {
-  return parseBlocks(markdown).map((block, index) => {
-    if (block.type === "h1") {
-      return <h1 key={`h1-${index}`}>{parseInline(block.text)}</h1>;
-    }
+function renderMarkdown(markdown) {
+  return parseBlocks(markdown)
+    .map((block) => {
+      if (block.type === "h1") {
+        return `<h1>${parseInline(block.text)}</h1>`;
+      }
 
-    if (block.type === "h2") {
-      return <h2 key={`h2-${index}`}>{parseInline(block.text)}</h2>;
-    }
+      if (block.type === "h2") {
+        return `<h2>${parseInline(block.text)}</h2>`;
+      }
 
-    if (block.type === "list") {
-      return (
-        <ul className="project-list" key={`ul-${index}`}>
-          {block.items.map((item, itemIndex) =>
-            renderListItem(item, `li-${index}-${itemIndex}`)
-          )}
-        </ul>
-      );
-    }
+      if (block.type === "list") {
+        return `<ul class="project-list">${block.items
+          .map(renderListItem)
+          .join("")}</ul>`;
+      }
 
-    if (block.type === "divider") {
-      return (
-        <div className="section-divider" key={`divider-${index}`}>
-          <span className="section-divider-prefix">//</span>
-          <span className="section-divider-line" />
-        </div>
-      );
-    }
+      if (block.type === "divider") {
+        return '<div class="section-divider"><span class="section-divider-prefix">//</span><span class="section-divider-line"></span></div>';
+      }
 
-    return <p key={`p-${index}`}>{parseInline(block.lines.join(" "))}</p>;
-  });
+      return `<p>${parseInline(block.lines.join(" "))}</p>`;
+    })
+    .join("");
 }
+
+module.exports = {
+  renderMarkdown,
+};
