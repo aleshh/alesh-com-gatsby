@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if pageTitle %}{{ pageTitle }}{% elif page.url == "/" %}Alesh Houdek{% elif title %}{{ title }} | Alesh Houdek{% else %}Alesh Houdek{% endif %}</title>
+    <link rel="stylesheet" href="/assets/site.css">
+    <script type="module" src="/assets/app.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="line-numbers">{% lineNumbers %}</div>
+      <main>
+        {{ content | safe }}
+        {% if showCircleLinks %}{% circleLinks %}{% endif %}
+      </main>
+      {% footer %}
+    </div>
+  </body>
+</html>

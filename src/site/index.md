@@ -1,3 +1,9 @@
+---
+layout: layout.njk
+title: Alesh Houdek
+showCircleLinks: true
+---
+
 # Alesh Houdek
 
 ## I'm a web developer. Mostly React. Not too much.

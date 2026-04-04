@@ -1,3 +1,8 @@
+---
+layout: layout.njk
+title: Minor projects and one-off experiments
+---
+
 # Minor projects and one-off experiments
 
 - [Morning Warmup Timer](https://projects.alesh.com/morning-warmup) → Quick app to time a sequence of quick exercises, 1 minute each.
